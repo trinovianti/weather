@@ -1,0 +1,191 @@
+<style>
+.background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('../assets/background.jpg');
+  background-size: cover;
+  z-index: -1;
+}
+.main-container {
+  position: relative;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  height: 60vh;
+  margin-top: 20px;
+}
+
+button {
+  height: 36px;
+  margin-left: 5px;
+  padding: 0 10px;
+}
+
+.city-detail {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.top-bar {
+  margin-top: 6px;
+}
+
+.top-bar input {
+  height: 30px;
+  width: calc(100% - 130px);
+}
+
+.city-list .city-card {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.city-list .city-card:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.city-list .city-card h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.city-list .city-weather {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.city-list .city-weather h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.today-forcast h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.today-forcast-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.today-forcast-detail h2 {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.today-forcast-detail .info {
+  flex: 1;
+}
+
+.nday-forcast {
+  margin-top: 20px;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 10px;
+}
+
+.nday-forcast-card {
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 4px 18px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 5px;
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nday-forcast-card h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+</style>
+<div class="background"></div>
+<div class="main-container">
+  <div class="top-bar">
+    <input type="text" placeholder="City name" [(ngModel)]="cityName" name="cityName" (keyup.enter)="onAddCity()">
+    <button (click)="onAddCity()">Add</button>
+    <button (click)="clearAll()">Clear</button>
+  </div>
+  <div class="content">
+    <div class="city-list">
+      <div class="body">
+        <div class="city-card" *ngFor="let city of cities" (click)="onClickCity(city)">
+          <h1>{{ city.name }}</h1>
+          <div class="city-weather">
+            <h2>{{city.todayForcast?.temp}}°C</h2>
+            <h2>{{city.todayForcast?.description}}</h2>
+            <img src="https://openweathermap.org/img/wn/{{city.todayForcast?.icon}}.png" alt="weather-icon">
+          </div>
+        </div>
+      </div>
+      <div class="pagination" *ngIf="totalPage > 1">
+        <div class="pagination-button" *ngFor="let item of [].constructor(totalPage); let i = index">
+          <button (click)="onClickPage(i + 1)">{{i + 1}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="city-detail" *ngIf="selectedCity">
+      <div class="today-forcast">
+        <h1>{{selectedCity.name}} - Today</h1>
+        <div class="today-forcast-detail">
+          <div class="info">
+            <table>
+              <tr><td>Temp</td><td>: {{selectedCity.todayForcast?.temp}}°C</td></tr>
+              <tr><td>Wind</td><td>: {{selectedCity.todayForcast?.wind}} M/S</td></tr>
+              <tr><td>Humidity</td><td>: {{selectedCity.todayForcast?.humidity}}%</td></tr>
+            </table>
+          </div>
+          <div class="icon">
+            <img src="https://openweathermap.org/img/wn/{{selectedCity.todayForcast?.icon}}@4x.png" alt="weather-icon">
+            <h2>{{selectedCity.todayForcast?.description}}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="nday-forcast">
+        <div class="nday-forcast-card" *ngFor="let item of selectedCity.nextDayForcasts">
+          <h1>{{item.date}}</h1>
+          <img src="https://openweathermap.org/img/wn/{{item.icon}}@2x.png" alt="weather-icon">
+          <table>
+            <tr><td>Temp</td><td>: {{item.temp}}°C</td></tr>
+            <tr><td>Wind</td><td>: {{item.wind}} M/S</td></tr>
+            <tr><td>Humidity</td><td>: {{item.humidity}}%</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
