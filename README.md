@@ -4,6 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 This project consume [Free Weather API](https://openweathermap.org/)
 
+This is hosting for [Weather Application](https://weather.redtria.com/))
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
@@ -29,6 +31,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 ## Sample Application
-<img src="/src/assets/screenshoot1.jpg" width="24%" height="24%"/> 
-<img src="/src/assets/screenshoot2.jpg" width="24%" height="24%"/> 
-<img src="/src/assets/screenshoot3.jpg" width="24%" height="24%"/> 
+<img src="/src/assets/screenshoot_01.jpg" width="24%" height="24%"/> 
+<img src="/src/assets/screenshoot_02.jpg" width="24%" height="24%"/> 
+<img src="/src/assets/screenshoot_03.jpg" width="24%" height="24%"/> 
